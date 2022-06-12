@@ -113,7 +113,7 @@ func (cfg APIConfig) handleExpand(store shortener.Engine) func(w http.ResponseWr
 	}
 }
 
-// handleReadiness checks if the database is ready and if not will return a 500 status.
+// handleReadiness checks if the database is ready and if not will return a 500 status if it's not.
 func (cfg APIConfig) handleReadiness(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(r.Context(), time.Second)
 	defer cancel()
