@@ -1,0 +1,50 @@
+version: "3"
+services:
+  shortener:
+    image: url-shortener:dev
+    ports:
+      - 3000:3000
+    environment:
+      SHORTENER_DB_HOST: db
+      SHORTENER_DB_PORT: 5432
+      SHORTENER_DB_USER: postgres
+      SHORTENER_DB_PASSWORD: nimda
+      SHORTENER_DB_NAME: postgres
+    depends_on:
+      - db
+
+  admin:
+    build:
+      context: ..
+      dockerfile: infra/admin.Dockerfile
+    environment:
+      SHORTENER_DB_HOST: db
+      SHORTENER_DB_PORT: 5432
+      SHORTENER_DB_USER: postgres
+      SHORTENER_DB_PASSWORD: nimda
+      SHORTENER_DB_NAME: postgres
+    depends_on:
+      - db
+
+  test:
+    build:
+      context: ..
+      dockerfile: infra/test.Dockerfile
+    environment:
+      SHORTENER_DB_HOST: db
+      SHORTENER_DB_PORT: 5432
+      SHORTENER_DB_USER: postgres
+      SHORTENER_DB_PASSWORD: nimda
+      SHORTENER_DB_NAME: postgres
+    depends_on:
+      - db
+
+  db:
+    image: postgres:12.11
+    environment:
+      POSTGRES_PASSWORD: nimda
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 7s
+      timeout: 5s
+      retries: 25
