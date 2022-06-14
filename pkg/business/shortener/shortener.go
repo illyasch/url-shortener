@@ -30,7 +30,7 @@ func New(db *sqlx.DB) Engine {
 	return Engine{DB: db}
 }
 
-// Shorten saves an URL to the database and returns its id encoded to BASE62 string.
+// Shorten saves a URL to the database and returns its id encoded to BASE62 string.
 func (e Engine) Shorten(ctx context.Context, url string) (string, error) {
 	const sql = `INSERT INTO urls(url, date_created) VALUES ($1, NOW()) 
                 	ON CONFLICT(url) DO UPDATE SET date_created = NOW() RETURNING id`

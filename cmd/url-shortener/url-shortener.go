@@ -28,11 +28,11 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	defer log.Sync()
+	defer func() { _ = log.Sync() }()
 
 	if err := run(log); err != nil {
 		log.Errorw("startup", "ERROR", err)
-		log.Sync()
+		_ = log.Sync()
 		os.Exit(1)
 	}
 }
@@ -107,7 +107,9 @@ func run(logger *zap.SugaredLogger) error {
 	}
 	defer func() {
 		logger.Infow("shutdown", "status", "stopping database support", "host", cfg.DB.Host)
-		db.Close()
+		if err := db.Close(); err != nil {
+			logger.Errorw("shutdown", "ERROR", fmt.Errorf("db close: %w", err))
+		}
 	}()
 
 	// =========================================================================
@@ -164,7 +166,9 @@ func run(logger *zap.SugaredLogger) error {
 
 		// Asking listener to shut down and shed load.
 		if err := srv.Shutdown(ctx); err != nil {
-			srv.Close()
+			if cErr := srv.Close(); cErr != nil {
+				logger.Errorw("shutdown", "ERROR", fmt.Errorf("server close: %w", cErr))
+			}
 			return fmt.Errorf("could not stop server gracefully: %w", err)
 		}
 	}

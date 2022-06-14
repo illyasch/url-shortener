@@ -14,10 +14,10 @@ Returns base62 code of the URL.
 
 ## Prerequisites
 
-- [Docker](https://www.docker.com/)
+- [Docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/)
 - [GNU Make](https://www.gnu.org/software/make/)
-- [Go](https://golang.org/)
+- [Go](https://golang.org/) (if you want to compile and run the service without docker)
 
 ## Installation
 
@@ -31,6 +31,12 @@ Returns base62 code of the URL.
 
    ```bash
    make image
+   ```
+
+3. Migrate and seed the database (uses Docker):
+
+   ```
+   make seed
    ```
 
 3. Start the local development environment (uses Docker):

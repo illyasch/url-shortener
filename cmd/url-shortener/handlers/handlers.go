@@ -42,6 +42,7 @@ func (cfg APIConfig) Router() http.Handler {
 	return router
 }
 
+// handleShorten handler saves a URL to the database and returns its id encoded to BASE62 string.
 func (cfg APIConfig) handleShorten(store shortener.Engine) http.HandlerFunc {
 	const URLMinLen = 9
 	type shortenResponse struct {
@@ -72,6 +73,7 @@ func (cfg APIConfig) handleShorten(store shortener.Engine) http.HandlerFunc {
 	}
 }
 
+// handleExpand handler takes the BASE62 code, decodes it and returns a corresponding URL from the database.
 func (cfg APIConfig) handleExpand(store shortener.Engine) func(w http.ResponseWriter, r *http.Request) {
 	const CodeMinLen = 6
 	type expandResponse struct {
