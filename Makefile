@@ -51,6 +51,7 @@ clean:          ## Stops running services and removes containers, volumes and im
 # Administration
 
 migrate:	## Initialize a new database in postgres container
+	docker-compose -f $(DOCKER_COMPOSE_FILE) build admin
 	docker-compose -f $(DOCKER_COMPOSE_FILE) run --rm admin /admin migrate
 
 seed: migrate	## Seeds initial data to the new database
@@ -60,6 +61,7 @@ seed: migrate	## Seeds initial data to the new database
 # Running tests within the local computer
 
 test: seed	## Run tests inside a container
+	docker-compose -f $(DOCKER_COMPOSE_FILE) build test
 	docker-compose -f $(DOCKER_COMPOSE_FILE) run --rm test
 
 # ==============================================================================
