@@ -1,15 +1,15 @@
 # url-shortener
 
-This service reduces long links from sites on the Internet.
+This service reduces long links from sites on the Internet. If you like the project or use it for any purpose, don't hesitate to give it a star on GitHub!
 
 ## Overview
 
-The entrypoint to the code is in cmd/url-shortener/url-shortener.go. The service has the following HTTP handlers:
+The entry point to the code is in cmd/url-shortener/url-shortener.go. The service has the following HTTP handlers:
 
-- _/shorten_ - use POST method and x-www-form-urlencoded parametes url with a URL for shortening. 
-Returns base62 code of the URL. 
-- _/{code}_ - use GET method and substitute {code} with actual URL code received from the service like **udXWFB**. Returns the full URL from the code. 
-- _/readiness_ - check if the database is ready and if not will return a 500 status if it's not.
+- _/shorten_ - use the POST method and x-www-form-urlencoded parameters url with a URL for shortening.
+  Returns base62 code of the URL.
+- _/{code}_ - use GET method and substitute {code} with actual URL code received from the service like **udXWFB**. Returns the full URL from the code.
+- _/readiness_ - check if the database is ready and, if not, will return a 500 status.
 - _/liveness_ - return simple status info if the service is alive.
 
 ## Prerequisites
@@ -45,7 +45,7 @@ Returns base62 code of the URL.
    make up
    ```
 
-   At this point you should have the url-shortener service running. To confirm the state of the running Docker container, run
+   At this point, you should have the url-shortener service running. To confirm the state of the running Docker container, run
 
    ```
    $ docker ps
@@ -63,7 +63,7 @@ make test
 
 ### Run manual tests
 
-   Shorten a URL
+Shorten a URL
    ```
    $ curl -i --data-urlencode "url=http://www.cnn.com" http://localhost:3000/shorten
    HTTP/1.1 200 OK
@@ -74,7 +74,7 @@ make test
    {"code":"vdXWFB"}
    ```
 
-   Get a shortened URL with the code
+Get a shortened URL with the code.
    ```
    $ curl -i http://localhost:3000/vdXWFB
    HTTP/1.1 200 OK

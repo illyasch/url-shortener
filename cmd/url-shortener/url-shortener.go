@@ -1,6 +1,7 @@
 // Grüezi!
 // This service reduces long links from sites on the Internet.
 // If you have any questions, email the author Ilya Scheblanov <ilya.scheblanov@gmail.com>.
+// If you like the project or use it for any purpose, don't hesitate to give it a star on GitHub! ;)
 package main
 
 import (
